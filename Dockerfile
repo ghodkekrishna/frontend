@@ -1,4 +1,4 @@
-# Stage 1: Build Angular app
+# Use official Node.js image to build Angular app
 FROM node:18-alpine as build
 
 WORKDIR /app
@@ -9,13 +9,9 @@ RUN npm install
 COPY . .
 RUN npm run build --prod
 
-# Stage 2: Serve with nginx
+# Use nginx to serve the Angular app
 FROM nginx:alpine
-
 COPY --from=build /app/dist/frontend /usr/share/nginx/html
-
-# Copy custom nginx config if needed (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
